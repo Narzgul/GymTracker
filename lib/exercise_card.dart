@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'exercise_detail.dart';
+
 class ExerciseCard extends StatefulWidget {
   final String exerciseName;
   final int numSets;
@@ -21,22 +23,43 @@ class ExerciseCard extends StatefulWidget {
 class _ExerciseCardState extends State<ExerciseCard> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            title: Text(widget.exerciseName),
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExerciseDetail(
+              exerciseName: widget.exerciseName,
+              numSets: widget.numSets,
+              numReps: widget.numReps,
+              weight: widget.weight,
+            ),
           ),
-          ListTile(
-            title: Text("Sets: ${widget.numSets}"),
-          ),
-          ListTile(
-            title: Text("Reps: ${widget.numReps}"),
-          ),
-          ListTile(
-            title: Text("Weight: ${widget.weight} kg"),
-          ),
-        ],
+        );
+      },
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              title: Hero(
+                tag: 'exerciseName${widget.exerciseName}',
+                child: Text(
+                  widget.exerciseName,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text("Sets: ${widget.numSets}"),
+            ),
+            ListTile(
+              title: Text("Reps: ${widget.numReps}"),
+            ),
+            ListTile(
+              title: Text("Weight: ${widget.weight} kg"),
+            ),
+          ],
+        ),
       ),
     );
   }
