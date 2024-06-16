@@ -19,6 +19,8 @@ class ExerciseDetail extends StatefulWidget {
 }
 
 class _ExerciseDetailState extends State<ExerciseDetail> {
+  bool editMode = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,20 +32,52 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () => setState(() => editMode = !editMode),
+          )
+        ],
       ),
       body: Column(
         children: <Widget>[
           ListTile(
-            title: Text(widget.exerciseName),
+            title: const Text("Sets"),
+            subtitle: editMode
+                ? TextField(
+                    keyboardType: TextInputType.number,
+                    controller:
+                        TextEditingController(text: "${widget.numSets}"),
+                  )
+                : Text(
+                    "${widget.numSets}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
           ),
           ListTile(
-            title: Text("Sets: ${widget.numSets}"),
+            title: const Text("Reps"),
+            subtitle: editMode
+                ? TextField(
+                    keyboardType: TextInputType.number,
+                    controller:
+                        TextEditingController(text: "${widget.numReps}"),
+                  )
+                : Text(
+                    "${widget.numReps}",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
           ),
           ListTile(
-            title: Text("Reps: ${widget.numReps}"),
-          ),
-          ListTile(
-            title: Text("Weight: ${widget.weight} kg"),
+            title: const Text("Weight"),
+            subtitle: editMode
+                ? TextField(
+                    keyboardType: TextInputType.number,
+                    controller: TextEditingController(text: "${widget.weight}"),
+                  )
+                : Text(
+                    "${widget.weight} kg",
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
           ),
         ],
       ),

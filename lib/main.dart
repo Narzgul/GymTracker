@@ -13,7 +13,6 @@ class GymTracker extends StatelessWidget {
     return MaterialApp(
       title: 'Gym Tracker',
       theme: ThemeData(
-        useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
       ),
       home: Scaffold(
