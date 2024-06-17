@@ -12,23 +12,24 @@ class GymTracker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var db = ExerciseDB();
+    var dbFuture = db.openDB();
     return MaterialApp(
       title: 'Gym Tracker',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Gym Tracker'),
-        ),
-        body: FutureBuilder(
-          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView(
+      home: FutureBuilder(
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Gym Tracker'),
+            ),
+            body: ListView(
               children: const [
                 ExerciseCard(
                   exerciseName: "Bench Press",
@@ -43,10 +44,16 @@ class GymTracker extends StatelessWidget {
                   weight: 25,
                 ),
               ],
-            );
-          },
-          future: db.openDB(),
-        ),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                db.insertExercise("Squat", 3, 15, 225);
+              },
+              child: const Icon(Icons.add),
+            )
+          );
+        },
+        future: dbFuture,
       ),
     );
   }

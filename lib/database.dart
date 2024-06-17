@@ -12,7 +12,7 @@ class ExerciseDB {
     }
     // Change the default factory. On iOS/Android, if not using `sqlite_flutter_lib` you can forget
     // this step, it will use the sqlite version available on the system.
-    //databaseFactory = databaseFactoryFfi;
+    databaseFactory = databaseFactoryFfi;
   }
 
   Future<void> openDB() async {
@@ -24,6 +24,20 @@ class ExerciseDB {
         await db.execute(
             'CREATE TABLE exercises (id INTEGER PRIMARY KEY, name TEXT, sets INTEGER, reps INTEGER, weight REAL)');
       },
+    );
+  }
+
+  // Add the insertExercise method here
+  Future<void> insertExercise(String name, int sets, int reps, double weight) async {
+    await db.insert(
+      'exercises',
+      {
+        'name': name,
+        'sets': sets,
+        'reps': reps,
+        'weight': weight,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 }
