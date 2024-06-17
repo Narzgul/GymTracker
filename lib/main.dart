@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/database.dart';
 import 'package:gym_tracker/exercise_card.dart';
 
 void main() {
@@ -10,6 +11,7 @@ class GymTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var db = ExerciseDB();
     return MaterialApp(
       title: 'Gym Tracker',
       theme: ThemeData(
@@ -19,21 +21,31 @@ class GymTracker extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Gym Tracker'),
         ),
-        body: ListView(
-          children: const [
-            ExerciseCard(
-              exerciseName: "Bench Press",
-              numSets: 3,
-              numReps: 15,
-              weight: 135,
-            ),
-            ExerciseCard(
-              exerciseName: "Bicep Curl",
-              numSets: 3,
-              numReps: 15,
-              weight: 25,
-            ),
-          ],
+        body: FutureBuilder(
+          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return ListView(
+              children: const [
+                ExerciseCard(
+                  exerciseName: "Bench Press",
+                  numSets: 3,
+                  numReps: 15,
+                  weight: 135,
+                ),
+                ExerciseCard(
+                  exerciseName: "Bicep Curl",
+                  numSets: 3,
+                  numReps: 15,
+                  weight: 25,
+                ),
+              ],
+            );
+          },
+          future: db.openDB(),
         ),
       ),
     );
