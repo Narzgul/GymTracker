@@ -1,10 +1,18 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:gym_tracker/exercise.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-class ExerciseDB {
+class ExerciseDB extends ChangeNotifier{
   late Database db;
+  
+  List<Exercise> _exercises = [];
+  set exercises(List<Exercise> value) {
+    _exercises = value;
+    notifyListeners();
+  }
+  List<Exercise> get exercises => _exercises;
 
   ExerciseDB() {
     if (Platform.isWindows || Platform.isLinux) {
@@ -42,9 +50,9 @@ class ExerciseDB {
   }
 
   // Get all exercises
-  Future<List<Exercise>> getExercises() async {
+  Future<void> loadExercises() async {
     List<Map<String, dynamic>> rawExercises = await db.query('exercises');
-    return rawExercises.map((e) => Exercise(
+    exercises = rawExercises.map((e) => Exercise(
       name: e['name'],
       sets: e['sets'],
       reps: e['reps'],

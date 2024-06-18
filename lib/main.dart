@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/exercise_db.dart';
+import 'package:watch_it/watch_it.dart';
 
 import 'home_screen.dart';
 
@@ -14,6 +15,10 @@ class GymTracker extends StatelessWidget {
   Widget build(BuildContext context) {
     var db = ExerciseDB();
     var dbFuture = db.openDB();
+    if (!GetIt.I.isRegistered<ExerciseDB>()) {
+      GetIt.I.registerSingleton<ExerciseDB>(db);
+    }
+
     return MaterialApp(
       title: 'Gym Tracker',
       theme: ThemeData(
@@ -26,7 +31,7 @@ class GymTracker extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return HomeScreen(db: db);
+          return const HomeScreen();
         },
         future: dbFuture,
       ),
