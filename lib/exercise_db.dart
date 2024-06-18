@@ -36,6 +36,17 @@ class ExerciseDB extends ChangeNotifier{
     );
   }
 
+  // Get all exercises
+  Future<void> loadExercises() async {
+    List<Map<String, dynamic>> rawExercises = await db.query('exercises');
+    exercises = rawExercises.map((e) => Exercise(
+      name: e['name'],
+      sets: e['sets'],
+      reps: e['reps'],
+      weight: e['weight'],
+    )).toList();
+  }
+
   Future<void> insertExercise(String name, int sets, int reps, double weight) async {
     await db.insert(
       'exercises',
@@ -49,14 +60,12 @@ class ExerciseDB extends ChangeNotifier{
     );
   }
 
-  // Get all exercises
-  Future<void> loadExercises() async {
-    List<Map<String, dynamic>> rawExercises = await db.query('exercises');
-    exercises = rawExercises.map((e) => Exercise(
-      name: e['name'],
-      sets: e['sets'],
-      reps: e['reps'],
-      weight: e['weight'],
-    )).toList();
+  Future<void> deleteExercise(String name) async {
+    await db.delete(
+      'exercises',
+      where: 'name = ?',
+      whereArgs: [name],
+    );
+    loadExercises();
   }
 }

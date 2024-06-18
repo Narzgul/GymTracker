@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:watch_it/watch_it.dart';
+
+import 'exercise_db.dart';
 
 class ExerciseDetail extends StatefulWidget {
   final String exerciseName;
@@ -34,9 +37,13 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () => setState(() => editMode = !editMode),
-          )
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              // Delete the exercise
+              GetIt.I<ExerciseDB>().deleteExercise(widget.exerciseName);
+              Navigator.of(context).pop();
+            },
+          ),
         ],
       ),
       body: Column(
@@ -80,6 +87,10 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                   ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: editMode ? const Icon(Icons.save) : const Icon(Icons.edit),
+        onPressed: () => setState(() => editMode = !editMode),
       ),
     );
   }
