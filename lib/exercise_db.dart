@@ -47,7 +47,7 @@ class ExerciseDB extends ChangeNotifier{
     )).toList();
   }
 
-  Future<void> insertExercise(String name, int sets, int reps, double weight) async {
+  Future<void> addExercise(String name, int sets, int reps, double weight) async {
     await db.insert(
       'exercises',
       {
