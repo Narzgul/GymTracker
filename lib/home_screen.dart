@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/exercise.dart';
 
 import 'exercise_db.dart';
 import 'exercise_card.dart';
@@ -21,7 +22,7 @@ class HomeScreen extends StatelessWidget {
         // Load exercises from the database and display them
         future: db.getExercises(),
         builder: (BuildContext context,
-            AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+            AsyncSnapshot<List<Exercise>> snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -42,15 +43,15 @@ class HomeScreen extends StatelessWidget {
               ),
             );
           }
-          List<Map<String, dynamic>> exercises = snapshot.data!;
+          List<Exercise> exercises = snapshot.data!;
           return ListView.builder(
             itemCount: exercises.length,
             itemBuilder: (BuildContext context, int index) {
               return ExerciseCard(
-                exerciseName: exercises[index]['name'],
-                numSets: exercises[index]['sets'],
-                numReps: exercises[index]['reps'],
-                weight: exercises[index]['weight'],
+                exerciseName: exercises[index].name,
+                numSets: exercises[index].sets,
+                numReps: exercises[index].reps,
+                weight: exercises[index].weight,
               );
             },
           );
