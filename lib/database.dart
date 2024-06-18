@@ -27,7 +27,6 @@ class ExerciseDB {
     );
   }
 
-  // Add the insertExercise method here
   Future<void> insertExercise(String name, int sets, int reps, double weight) async {
     await db.insert(
       'exercises',
@@ -39,5 +38,10 @@ class ExerciseDB {
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+  }
+
+  // Get all exercises
+  Future<List<Map<String, dynamic>>> getExercises() async {
+    return await db.query('exercises');
   }
 }
