@@ -23,6 +23,9 @@ class ExerciseDetail extends StatefulWidget {
 
 class _ExerciseDetailState extends State<ExerciseDetail> {
   bool editMode = false;
+  int? newNumSets;
+  int? newNumReps;
+  double? newWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,21 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             widget.exerciseName,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Save potential changes before popping
+            if (newNumReps != null || newNumSets != null || newWeight != null) {
+              GetIt.I<ExerciseDB>().editExercise(
+                widget.exerciseName,
+                newNumSets ?? widget.numSets,
+                newNumReps ?? widget.numReps,
+                newWeight ?? widget.weight,
+              );
+            }
+            Navigator.of(context).pop();
+          },
         ),
         actions: [
           IconButton(
@@ -48,6 +66,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
       ),
       body: Column(
         children: <Widget>[
+          // Sets
           ListTile(
             title: const Text("Sets"),
             subtitle: editMode
@@ -55,12 +74,19 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                     keyboardType: TextInputType.number,
                     controller:
                         TextEditingController(text: "${widget.numSets}"),
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        newNumSets = int.parse(value);
+                      }
+                    },
                   )
                 : Text(
-                    "${widget.numSets}",
+                    "${newNumSets ?? widget.numSets}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
+
+          // Reps
           ListTile(
             title: const Text("Reps"),
             subtitle: editMode
@@ -68,21 +94,33 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                     keyboardType: TextInputType.number,
                     controller:
                         TextEditingController(text: "${widget.numReps}"),
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        newNumReps = int.parse(value);
+                      }
+                    },
                   )
                 : Text(
-                    "${widget.numReps}",
+                    "${newNumReps ?? widget.numReps}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
+
+          // Weight
           ListTile(
             title: const Text("Weight"),
             subtitle: editMode
                 ? TextField(
                     keyboardType: TextInputType.number,
                     controller: TextEditingController(text: "${widget.weight}"),
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        newWeight = double.parse(value);
+                      }
+                    },
                   )
                 : Text(
-                    "${widget.weight} kg",
+                    "${newWeight ??widget.weight} kg",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
@@ -90,7 +128,18 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
       ),
       floatingActionButton: FloatingActionButton(
         child: editMode ? const Icon(Icons.save) : const Icon(Icons.edit),
-        onPressed: () => setState(() => editMode = !editMode),
+        onPressed: () => setState(() {
+          if (editMode) {
+            // Save the changes
+            GetIt.I<ExerciseDB>().editExercise(
+              widget.exerciseName,
+              newNumSets ?? widget.numSets,
+              newNumReps ?? widget.numReps,
+              newWeight ?? widget.weight,
+            );
+          }
+          editMode = !editMode;
+        }),
       ),
     );
   }

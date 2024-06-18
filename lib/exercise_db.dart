@@ -60,6 +60,20 @@ class ExerciseDB extends ChangeNotifier{
     );
   }
 
+  Future<void> editExercise(String name, int sets, int reps, double weight) async {
+    await db.update(
+      'exercises',
+      {
+        'sets': sets,
+        'reps': reps,
+        'weight': weight,
+      },
+      where: 'name = ?',
+      whereArgs: [name],
+    );
+    loadExercises();
+  }
+
   Future<void> deleteExercise(String name) async {
     await db.delete(
       'exercises',
