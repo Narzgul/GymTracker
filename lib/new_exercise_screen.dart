@@ -12,9 +12,31 @@ class NewExerciseScreen extends StatefulWidget {
 
 class _NewExerciseScreenState extends State<NewExerciseScreen> {
   final TextEditingController _nameController = TextEditingController();
+  String? get _nameError => errorText(_nameController.text);
   final TextEditingController _setsController = TextEditingController();
+  String? get _setsError => errorText(_setsController.text, isInt: true);
   final TextEditingController _repsController = TextEditingController();
+  String? get _repsError => errorText(_repsController.text, isInt: true);
   final TextEditingController _weightController = TextEditingController();
+  String? get _weightError => errorText(_weightController.text, isNumber: true);
+
+  String? errorText(String input, {bool isNumber = false, bool isInt = false}) {
+    if (input.isEmpty) {
+      return 'Can\'t be empty';
+    }
+    if (isInt) {
+      if (int.tryParse(input) == null) {
+        return 'Must be a whole number';
+      }
+    } else if (isNumber){
+      if (double.tryParse(input) == null) {
+        return 'Must be a number';
+      }
+    }
+    return null;
+  }
+
+  bool triedSave = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +50,51 @@ class _NewExerciseScreenState extends State<NewExerciseScreen> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
+              decoration: InputDecoration(
+                labelText: 'Name',
+                errorText: triedSave ? _nameError : null,
+              ),
+              onChanged: (value) => triedSave ? setState(() {}) : null,
             ),
             TextField(
               controller: _setsController,
-              decoration: const InputDecoration(labelText: 'Sets'),
+              decoration: InputDecoration(
+                labelText: 'Sets',
+                errorText: triedSave ? _setsError : null,
+              ),
+              onChanged: (value) => triedSave ? setState(() {}) : null,
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: _repsController,
-              decoration: const InputDecoration(labelText: 'Reps'),
+              decoration: InputDecoration(
+                labelText: 'Reps',
+                errorText: triedSave ? _repsError : null,
+              ),
+              onChanged: (value) => triedSave ? setState(() {}) : null,
               keyboardType: TextInputType.number,
             ),
             TextField(
               controller: _weightController,
-              decoration: const InputDecoration(labelText: 'Weight'),
+              decoration: InputDecoration(
+                labelText: 'Weight',
+                errorText: triedSave ? _weightError : null,
+              ),
+              onChanged: (value) => triedSave ? setState(() {}) : null,
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16.0), // Add some space
             ElevatedButton(
               onPressed: () {
+                setState(() {
+                  triedSave = true;
+                });
+                if (_nameError != null ||
+                    _setsError != null ||
+                    _repsError != null ||
+                    _weightError != null) {
+                  return;
+                }
                 GetIt.I<ExerciseDB>().addExercise(
                   _nameController.text,
                   int.parse(_setsController.text),
