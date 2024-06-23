@@ -1,16 +1,12 @@
-# gym_tracker
+# Gym Tracker
 
-A Gym Tracker
+## Description
+A simple gym tracker that allows users to track their workouts and progress. Users can create, read, update, and delete workouts and exercises.
 
-## Getting Started
+## Technical Details
+This project was built using Dart and Flutter for the app and stores the data in a local SQLite database.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+![Home Screen](screenshots/home_screen.png)
+![New Exercise Screen](screenshots/new_exercise.png)
+![Edit Exercise Screen](screenshots/edit_exercise.png)
