@@ -8,6 +8,7 @@ class ExerciseDetail extends StatefulWidget {
   final int numSets;
   final int numReps;
   final double weight;
+  final String heroTag;
 
   const ExerciseDetail({
     super.key,
@@ -15,6 +16,7 @@ class ExerciseDetail extends StatefulWidget {
     required this.numSets,
     required this.numReps,
     required this.weight,
+    required this.heroTag,
   });
 
   @override
@@ -120,7 +122,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                     },
                   )
                 : Text(
-                    "${newWeight ??widget.weight} kg",
+                    "${newWeight ?? widget.weight} kg",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),

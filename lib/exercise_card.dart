@@ -7,6 +7,7 @@ class ExerciseCard extends StatefulWidget {
   final int numSets;
   final int numReps;
   final double weight;
+  final String heroTag;
 
   const ExerciseCard({
     super.key,
@@ -14,6 +15,7 @@ class ExerciseCard extends StatefulWidget {
     required this.numSets,
     required this.numReps,
     required this.weight,
+    required this.heroTag,
   });
 
   @override
@@ -33,6 +35,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
               numSets: widget.numSets,
               numReps: widget.numReps,
               weight: widget.weight,
+              heroTag: widget.heroTag,
             ),
           ),
         );

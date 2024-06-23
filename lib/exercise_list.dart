@@ -37,6 +37,7 @@ class ExerciseList extends StatelessWidget {
           numSets: exercises[index].sets,
           numReps: exercises[index].reps,
           weight: exercises[index].weight,
+          heroTag: exercises[index].name + index.toString(),
         );
       },
     );
