@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/exercise_db.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:watch_it/watch_it.dart';
 
 import 'home_screen.dart';
+import 'auth/secrets.dart';
 
-void main() {
+void main() async {
+  // Required by Supabase, because it needs native code
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(url: supabaseURL, anonKey: supabaseAnonKey);
+
   runApp(const GymTracker());
 }
 
