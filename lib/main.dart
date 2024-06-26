@@ -19,8 +19,7 @@ class GymTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var db = ExerciseDB();
-    var dbFuture = db.openDB();
+    var db = ExerciseDB(supabase: Supabase.instance.client);
     if (!GetIt.I.isRegistered<ExerciseDB>()) {
       GetIt.I.registerSingleton<ExerciseDB>(db);
     }
@@ -30,17 +29,7 @@ class GymTracker extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
       ),
-      home: FutureBuilder(
-        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return const HomeScreen();
-        },
-        future: dbFuture,
-      ),
+      home: const HomeScreen(),
     );
   }
 }
