@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/exercise_db.dart';
+import 'package:gym_tracker/login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -29,7 +30,7 @@ class GymTracker extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
       ),
-      home: const HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }

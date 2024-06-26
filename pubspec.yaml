@@ -39,7 +39,8 @@ dependencies:
   watch_it: ^1.4.2
   sqflite: ^2.3.3+1
   sqflite_common_ffi: ^2.3.3
-  supabase_flutter: ^2.5.6
+  supabase_flutter: ^2.5.5
+  google_sign_in: ^6.2.1
 
 dev_dependencies:
   flutter_test:
