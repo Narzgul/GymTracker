@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "736102478882",
+    "project_id": "gym-tracker-narzgul",
+    "storage_bucket": "gym-tracker-narzgul.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736102478882:android:b14b95b3de2c281f09c67b",
+        "android_client_info": {
+          "package_name": "com.github.narzgul.gym_tracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "736102478882-31nld1p9fsoub9dqltq87dvvjvgb1c8r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYLG-87v72-Mw9T8e8QHI6Jf3NMHIrIx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "736102478882-31nld1p9fsoub9dqltq87dvvjvgb1c8r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
