@@ -16,16 +16,11 @@ class HomeScreen extends WatchingWidget implements NavigableScreen {
     GetIt.I<ExerciseDB>().loadExercises();
     List<Exercise> exercises =
         watchPropertyValue((ExerciseDB db) => db.exercises);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Gym Tracker'),
-      ),
-      body: ExerciseList(exercises: exercises),
-    );
+    return ExerciseList(exercises: exercises);
   }
 
   @override
-  final String title = 'Gym Tracker';
+  final String title = 'Home';
 
   @override
   FloatingActionButton? get floatingActionButton => FloatingActionButton(

@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/app_scaffold.dart';
 import 'package:gym_tracker/exercise_db.dart';
+import 'package:gym_tracker/screens/home_screen.dart';
 import 'package:gym_tracker/screens/login_screen.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -18,7 +20,6 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class GymTracker extends StatelessWidget {
   const GymTracker({super.key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +42,7 @@ class GymTracker extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          //return const HomeScreen();
-          return const LoginScreen();
+          return const AppScaffold(screens: [HomeScreen(), LoginScreen()]);
         },
         future: dbFuture,
       ),

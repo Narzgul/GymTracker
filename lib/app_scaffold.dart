@@ -22,6 +22,15 @@ class _AppScaffoldState extends State<AppScaffold> {
       drawer: Drawer(
         child: ListView(
           children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Text(
+                'Gym Tracker',
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
             for (final screen in widget.screens)
               ListTile(
                 title: Text(screen.title),
