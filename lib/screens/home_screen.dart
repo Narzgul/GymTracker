@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/exercise.dart';
+import 'package:gym_tracker/main.dart';
 import 'package:watch_it/watch_it.dart';
 
-import 'exercise_db.dart';
-import 'exercise_list.dart';
-import 'new_exercise_screen.dart';
+import '../exercise_db.dart';
+import '../widgets/exercise_list.dart';
+import 'navigable_screen.dart';
+import 'sub_screens/new_exercise_screen.dart';
 
-class HomeScreen extends WatchingWidget {
+class HomeScreen extends WatchingWidget implements NavigableScreen {
   const HomeScreen({super.key});
 
   @override
@@ -19,15 +21,19 @@ class HomeScreen extends WatchingWidget {
         title: const Text('Gym Tracker'),
       ),
       body: ExerciseList(exercises: exercises),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
+    );
+  }
+
+  @override
+  final String title = 'Gym Tracker';
+
+  @override
+  FloatingActionButton? get floatingActionButton => FloatingActionButton(
+        onPressed: () => navigatorKey.currentState?.push(
           MaterialPageRoute(
             builder: (context) => const NewExerciseScreen(),
           ),
         ),
         child: const Icon(Icons.add),
-      ),
-    );
-  }
+      );
 }

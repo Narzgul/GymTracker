@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'exercise_detail.dart';
+import '../screens/sub_screens/exercise_detail.dart';
 
 class ExerciseCard extends StatefulWidget {
   final String exerciseName;

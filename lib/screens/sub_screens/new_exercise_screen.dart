@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:watch_it/watch_it.dart';
 
-import 'exercise_db.dart';
+import '../../exercise_db.dart';
 
 class NewExerciseScreen extends StatefulWidget {
   const NewExerciseScreen({super.key});

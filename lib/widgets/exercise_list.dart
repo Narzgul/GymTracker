@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'exercise.dart';
+import '../exercise.dart';
 import 'exercise_card.dart';
 
 class ExerciseList extends StatelessWidget {

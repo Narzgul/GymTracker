@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginScreen extends StatelessWidget {
+import 'navigable_screen.dart';
+
+class LoginScreen extends StatelessWidget implements NavigableScreen {
   const LoginScreen({super.key});
 
   bool checkUser() {
@@ -65,4 +67,10 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  final String title = 'Login';
+
+  @override
+  FloatingActionButton? get floatingActionButton => null;
 }
