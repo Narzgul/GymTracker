@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/exercise_db.dart';
+import 'package:gym_tracker/login_screen.dart';
 import 'package:watch_it/watch_it.dart';
 
 import 'firebase_options.dart';
@@ -37,7 +38,8 @@ class GymTracker extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
-          return const HomeScreen();
+          //return const HomeScreen();
+          return const LoginScreen();
         },
         future: dbFuture,
       ),
