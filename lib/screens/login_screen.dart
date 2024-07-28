@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:gym_tracker/firestore_db.dart';
 
 import 'navigable_screen.dart';
 
@@ -42,6 +43,11 @@ class LoginScreen extends StatelessWidget implements NavigableScreen {
     print("User Signed Out");
   }
 
+  testFirestore() {
+    var db = FirestoreDB();
+    db.ensureUser().then((value) => print("User ensured"));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +67,10 @@ class LoginScreen extends StatelessWidget implements NavigableScreen {
             ElevatedButton(
               onPressed: () => checkUser(),
               child: const Text("Check if User logged in"),
+            ),
+            ElevatedButton(
+              onPressed: () => testFirestore(),
+              child: const Text("Test Firestore"),
             ),
           ],
         ),
