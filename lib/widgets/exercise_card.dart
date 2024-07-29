@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../exercise.dart';
 import '../screens/sub_screens/exercise_detail.dart';
 
 class ExerciseCard extends StatefulWidget {
-  final String exerciseName;
-  final int numSets;
-  final int numReps;
-  final double weight;
-  final String heroTag;
+  final Exercise exercise;
 
-  const ExerciseCard({
-    super.key,
-    required this.exerciseName,
-    required this.numSets,
-    required this.numReps,
-    required this.weight,
-    required this.heroTag,
-  });
+  const ExerciseCard({super.key, required this.exercise});
 
   @override
   State<ExerciseCard> createState() => _ExerciseCardState();
@@ -30,13 +20,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ExerciseDetail(
-              exerciseName: widget.exerciseName,
-              numSets: widget.numSets,
-              numReps: widget.numReps,
-              weight: widget.weight,
-              heroTag: widget.heroTag,
-            ),
+            builder: (context) => ExerciseDetail(exercise: widget.exercise),
           ),
         );
       },
@@ -45,21 +29,21 @@ class _ExerciseCardState extends State<ExerciseCard> {
           children: <Widget>[
             ListTile(
               title: Hero(
-                tag: 'exerciseName${widget.exerciseName}',
+                tag: 'exerciseName${widget.exercise.name}',
                 child: Text(
-                  widget.exerciseName,
+                  widget.exercise.name,
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
             ),
             ListTile(
-              title: Text("Sets: ${widget.numSets}"),
+              title: Text("Sets: ${widget.exercise.sets}"),
             ),
             ListTile(
-              title: Text("Reps: ${widget.numReps}"),
+              title: Text("Reps: ${widget.exercise.reps}"),
             ),
             ListTile(
-              title: Text("Weight: ${widget.weight} kg"),
+              title: Text("Weight: ${widget.exercise.weight} kg"),
             ),
           ],
         ),

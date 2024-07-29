@@ -31,15 +31,8 @@ class ExerciseList extends StatelessWidget {
     // If there are exercises, display them in a list
     return ListView.builder(
       itemCount: exercises.length,
-      itemBuilder: (BuildContext context, int index) {
-        return ExerciseCard(
-          exerciseName: exercises[index].name,
-          numSets: exercises[index].sets,
-          numReps: exercises[index].reps,
-          weight: exercises[index].weight,
-          heroTag: exercises[index].name + index.toString(),
-        );
-      },
+      itemBuilder: (BuildContext context, int index) =>
+          ExerciseCard(exercise: exercises[index]),
     );
   }
 }

@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:watch_it/watch_it.dart';
 
+import '../../exercise.dart';
 import '../../exercise_db.dart';
 
 class ExerciseDetail extends StatefulWidget {
-  final String exerciseName;
-  final int numSets;
-  final int numReps;
-  final double weight;
-  final String heroTag;
+  final Exercise exercise;
 
-  const ExerciseDetail({
-    super.key,
-    required this.exerciseName,
-    required this.numSets,
-    required this.numReps,
-    required this.weight,
-    required this.heroTag,
-  });
+  const ExerciseDetail({super.key, required this.exercise});
 
   @override
   State<ExerciseDetail> createState() => _ExerciseDetailState();
@@ -34,9 +24,9 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Hero(
-          tag: 'exerciseName${widget.exerciseName}',
+          tag: 'exerciseName${widget.exercise.name}',
           child: Text(
-            widget.exerciseName,
+            widget.exercise.name,
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
@@ -46,10 +36,10 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             // Save potential changes before popping
             if (newNumReps != null || newNumSets != null || newWeight != null) {
               GetIt.I<ExerciseDB>().editExercise(
-                widget.exerciseName,
-                newNumSets ?? widget.numSets,
-                newNumReps ?? widget.numReps,
-                newWeight ?? widget.weight,
+                widget.exercise.name,
+                newNumSets ?? widget.exercise.sets,
+                newNumReps ?? widget.exercise.reps,
+                newWeight ?? widget.exercise.weight,
               );
             }
             Navigator.of(context).pop();
@@ -60,7 +50,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             icon: const Icon(Icons.delete),
             onPressed: () {
               // Delete the exercise
-              GetIt.I<ExerciseDB>().deleteExercise(widget.exerciseName);
+              GetIt.I<ExerciseDB>().deleteExercise(widget.exercise.name);
               Navigator.of(context).pop();
             },
           ),
@@ -75,7 +65,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 ? TextField(
                     keyboardType: TextInputType.number,
                     controller:
-                        TextEditingController(text: "${widget.numSets}"),
+                        TextEditingController(text: "${widget.exercise.sets}"),
                     onChanged: (value) {
                       if (value.isNotEmpty) {
                         newNumSets = int.parse(value);
@@ -83,7 +73,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                     },
                   )
                 : Text(
-                    "${newNumSets ?? widget.numSets}",
+                    "${newNumSets ?? widget.exercise.sets}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
@@ -95,7 +85,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 ? TextField(
                     keyboardType: TextInputType.number,
                     controller:
-                        TextEditingController(text: "${widget.numReps}"),
+                        TextEditingController(text: "${widget.exercise.reps}"),
                     onChanged: (value) {
                       if (value.isNotEmpty) {
                         newNumReps = int.parse(value);
@@ -103,7 +93,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                     },
                   )
                 : Text(
-                    "${newNumReps ?? widget.numReps}",
+                    "${newNumReps ?? widget.exercise.reps}",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
@@ -114,7 +104,8 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             subtitle: editMode
                 ? TextField(
                     keyboardType: TextInputType.number,
-                    controller: TextEditingController(text: "${widget.weight}"),
+                    controller: TextEditingController(
+                        text: "${widget.exercise.weight}"),
                     onChanged: (value) {
                       if (value.isNotEmpty) {
                         newWeight = double.parse(value);
@@ -122,7 +113,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                     },
                   )
                 : Text(
-                    "${newWeight ?? widget.weight} kg",
+                    "${newWeight ?? widget.exercise.weight} kg",
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
@@ -134,10 +125,10 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           if (editMode) {
             // Save the changes
             GetIt.I<ExerciseDB>().editExercise(
-              widget.exerciseName,
-              newNumSets ?? widget.numSets,
-              newNumReps ?? widget.numReps,
-              newWeight ?? widget.weight,
+              widget.exercise.name,
+              newNumSets ?? widget.exercise.sets,
+              newNumReps ?? widget.exercise.reps,
+              newWeight ?? widget.exercise.weight,
             );
           }
           editMode = !editMode;

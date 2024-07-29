@@ -44,6 +44,8 @@ class _AppScaffoldState extends State<AppScaffold> {
           ],
         ),
       ),
+      floatingActionButton:
+          widget.screens[_currentPageIndex].floatingActionButton,
       body: widget.screens[_currentPageIndex],
     );
   }

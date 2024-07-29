@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/exercise.dart';
+import 'package:gym_tracker/firestore_db.dart';
 import 'package:gym_tracker/main.dart';
 import 'package:watch_it/watch_it.dart';
 
-import '../exercise_db.dart';
 import '../widgets/exercise_list.dart';
 import 'navigable_screen.dart';
 import 'sub_screens/new_exercise_screen.dart';
@@ -13,10 +12,15 @@ class HomeScreen extends WatchingWidget implements NavigableScreen {
 
   @override
   Widget build(BuildContext context) {
-    GetIt.I<ExerciseDB>().loadExercises();
-    List<Exercise> exercises =
-        watchPropertyValue((ExerciseDB db) => db.exercises);
-    return ExerciseList(exercises: exercises);
+    FirestoreDB db = FirestoreDB();
+    return StreamBuilder(
+      stream: db.getExerciseStream(),
+      builder: (context, snapshot) {
+        return ExerciseList(
+          exercises: snapshot.data ?? [],
+        );
+      },
+    );
   }
 
   @override
