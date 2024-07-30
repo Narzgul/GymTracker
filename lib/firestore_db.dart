@@ -72,10 +72,36 @@ class FirestoreDB extends ChangeNotifier {
     return documentRef.id;
   }
 
+  Future<Exercise> getExercise(String id, {bool cache = false}) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return Exercise(name: '', sets: 0, reps: 0, weight: 0, id: '');
+    }
+
+    DocumentSnapshot<Map<String, dynamic>> doc = await db
+        .collection('users')
+        .doc(user.uid)
+        .collection('exercises')
+        .doc(id)
+        .get();
+
+    return Exercise(
+      name: doc['name'],
+      sets: doc['sets'],
+      reps: doc['reps'],
+      weight: doc['weight'],
+      id: doc.id,
+    );
+  }
+
   Future<void> editExercise(Exercise exercise) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
+      return;
+    }
+    if(await getExercise(exercise.id, cache: true) == exercise) {
       return;
     }
 

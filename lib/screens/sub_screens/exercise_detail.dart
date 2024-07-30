@@ -14,23 +14,12 @@ class ExerciseDetail extends StatefulWidget {
 
 class _ExerciseDetailState extends State<ExerciseDetail> {
   bool editMode = false;
-  int? newNumSets;
-  int? newNumReps;
-  double? newWeight;
+  late Exercise newExercise = widget.exercise;
+  late Exercise oldExercise = widget.exercise;
 
   void saveChanges() {
-    if (newNumReps != null || newNumSets != null || newWeight != null) {
-      Exercise newExercise = Exercise(
-        name: widget.exercise.name,
-        sets: newNumSets ?? widget.exercise.sets,
-        reps: newNumReps ?? widget.exercise.reps,
-        weight: newWeight ?? widget.exercise.weight,
-        id: widget.exercise.id,
-      );
-
-      FirestoreDB db = FirestoreDB();
-      db.editExercise(newExercise);
-    }
+    FirestoreDB db = FirestoreDB();
+    db.editExercise(newExercise);
   }
 
   @override
@@ -39,10 +28,17 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
       appBar: AppBar(
         title: Hero(
           tag: widget.exercise.id,
-          child: Text(
-            widget.exercise.name,
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
+          child: editMode
+              ? TextField(
+                  controller: TextEditingController(text: newExercise.name),
+                  onChanged: (value) {
+                    newExercise.name = value;
+                  },
+                )
+              : Text(
+                  newExercise.name,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -71,16 +67,16 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             subtitle: editMode
                 ? TextField(
                     keyboardType: TextInputType.number,
-                    controller:
-                        TextEditingController(text: "${widget.exercise.sets}"),
+                    controller: TextEditingController(
+                        text: newExercise.sets.toString()),
                     onChanged: (value) {
                       if (value.isNotEmpty) {
-                        newNumSets = int.parse(value);
+                        newExercise.sets = int.parse(value);
                       }
                     },
                   )
                 : Text(
-                    "${newNumSets ?? widget.exercise.sets}",
+                    newExercise.sets.toString(),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
@@ -91,16 +87,16 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             subtitle: editMode
                 ? TextField(
                     keyboardType: TextInputType.number,
-                    controller:
-                        TextEditingController(text: "${widget.exercise.reps}"),
+                    controller: TextEditingController(
+                        text: newExercise.reps.toString()),
                     onChanged: (value) {
                       if (value.isNotEmpty) {
-                        newNumReps = int.parse(value);
+                        newExercise.reps = int.parse(value);
                       }
                     },
                   )
                 : Text(
-                    "${newNumReps ?? widget.exercise.reps}",
+                    newExercise.reps.toString(),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
@@ -112,15 +108,15 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 ? TextField(
                     keyboardType: TextInputType.number,
                     controller: TextEditingController(
-                        text: "${widget.exercise.weight}"),
+                        text: newExercise.weight.toString()),
                     onChanged: (value) {
                       if (value.isNotEmpty) {
-                        newWeight = double.parse(value);
+                        newExercise.weight = double.parse(value);
                       }
                     },
                   )
                 : Text(
-                    "${newWeight ?? widget.exercise.weight} kg",
+                    newExercise.weight.toString(),
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
