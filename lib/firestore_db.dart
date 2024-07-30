@@ -79,8 +79,6 @@ class FirestoreDB extends ChangeNotifier {
       return;
     }
 
-    print('Editing exercise ${exercise.id}');
-
     await db
         .collection('users')
         .doc(user.uid)

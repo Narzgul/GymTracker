@@ -20,8 +20,16 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
 
   void saveChanges() {
     if (newNumReps != null || newNumSets != null || newWeight != null) {
-      FirestoreDB().editExercise(widget.exercise);
-      print("Changes saved");
+      Exercise newExercise = Exercise(
+        name: widget.exercise.name,
+        sets: newNumSets ?? widget.exercise.sets,
+        reps: newNumReps ?? widget.exercise.reps,
+        weight: newWeight ?? widget.exercise.weight,
+        id: widget.exercise.id,
+      );
+
+      FirestoreDB db = FirestoreDB();
+      db.editExercise(newExercise);
     }
   }
 
