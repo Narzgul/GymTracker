@@ -3,11 +3,13 @@ class Exercise {
   int sets;
   int reps;
   double weight;
+  String id;
 
   Exercise({
     required this.name,
     required this.sets,
     required this.reps,
     required this.weight,
+    required this.id,
   });
 }

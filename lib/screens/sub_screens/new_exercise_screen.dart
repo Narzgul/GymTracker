@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/exercise.dart';
 import 'package:gym_tracker/firestore_db.dart';
 
 
@@ -97,12 +96,10 @@ class _NewExerciseScreenState extends State<NewExerciseScreen> {
                 }
                 FirestoreDB db = FirestoreDB();
                 db.addExercise(
-                  Exercise(
-                    name: _nameController.text,
-                    sets: int.parse(_setsController.text),
-                    reps: int.parse(_repsController.text),
-                    weight: double.parse(_weightController.text),
-                  ),
+                  name: _nameController.text,
+                  sets: int.parse(_setsController.text),
+                  reps: int.parse(_repsController.text),
+                  weight: double.parse(_weightController.text),
                 );
                 Navigator.of(context).pop();
               },

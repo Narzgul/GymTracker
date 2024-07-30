@@ -29,7 +29,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
           children: <Widget>[
             ListTile(
               title: Hero(
-                tag: 'exerciseName${widget.exercise.name}',
+                tag: widget.exercise.id,
                 child: Text(
                   widget.exercise.name,
                   style: Theme.of(context).textTheme.headlineSmall,

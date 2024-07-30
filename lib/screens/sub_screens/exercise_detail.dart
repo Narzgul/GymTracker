@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:watch_it/watch_it.dart';
+import 'package:gym_tracker/firestore_db.dart';
 
 import '../../exercise.dart';
-import '../../exercise_db.dart';
 
 class ExerciseDetail extends StatefulWidget {
   final Exercise exercise;
@@ -19,12 +18,19 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   int? newNumReps;
   double? newWeight;
 
+  void saveChanges() {
+    if (newNumReps != null || newNumSets != null || newWeight != null) {
+      FirestoreDB().editExercise(widget.exercise);
+      print("Changes saved");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Hero(
-          tag: 'exerciseName${widget.exercise.name}',
+          tag: widget.exercise.id,
           child: Text(
             widget.exercise.name,
             style: Theme.of(context).textTheme.headlineSmall,
@@ -34,14 +40,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Save potential changes before popping
-            if (newNumReps != null || newNumSets != null || newWeight != null) {
-              GetIt.I<ExerciseDB>().editExercise(
-                widget.exercise.name,
-                newNumSets ?? widget.exercise.sets,
-                newNumReps ?? widget.exercise.reps,
-                newWeight ?? widget.exercise.weight,
-              );
-            }
+            saveChanges();
             Navigator.of(context).pop();
           },
         ),
@@ -50,7 +49,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
             icon: const Icon(Icons.delete),
             onPressed: () {
               // Delete the exercise
-              GetIt.I<ExerciseDB>().deleteExercise(widget.exercise.name);
+              FirestoreDB().deleteExercise(widget.exercise);
               Navigator.of(context).pop();
             },
           ),
@@ -124,12 +123,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
         onPressed: () => setState(() {
           if (editMode) {
             // Save the changes
-            GetIt.I<ExerciseDB>().editExercise(
-              widget.exercise.name,
-              newNumSets ?? widget.exercise.sets,
-              newNumReps ?? widget.exercise.reps,
-              newWeight ?? widget.exercise.weight,
-            );
+            saveChanges();
           }
           editMode = !editMode;
         }),

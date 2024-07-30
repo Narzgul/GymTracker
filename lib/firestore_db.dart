@@ -44,24 +44,68 @@ class FirestoreDB extends ChangeNotifier {
                   sets: e['sets'],
                   reps: e['reps'],
                   weight: e['weight'],
+                  id: e.id,
                 ),
               )
               .toList(),
         );
   }
 
-  Future<void> addExercise(Exercise exercise) async {
+  Future<String> addExercise(
+      {required String name,
+      required int sets,
+      required int reps,
+      required double weight}) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return '';
+    }
+
+    DocumentReference<Map<String, dynamic>> documentRef =
+        await db.collection('users').doc(user.uid).collection('exercises').add({
+      'name': name,
+      'sets': sets,
+      'reps': reps,
+      'weight': weight,
+    });
+    return documentRef.id;
+  }
+
+  Future<void> editExercise(Exercise exercise) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       return;
     }
 
-    await db.collection('users').doc(user.uid).collection('exercises').add({
+    print('Editing exercise ${exercise.id}');
+
+    await db
+        .collection('users')
+        .doc(user.uid)
+        .collection('exercises')
+        .doc(exercise.id)
+        .update({
       'name': exercise.name,
       'sets': exercise.sets,
       'reps': exercise.reps,
       'weight': exercise.weight,
     });
+  }
+
+  Future<void> deleteExercise(Exercise exercise) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      return;
+    }
+
+    await db
+        .collection('users')
+        .doc(user.uid)
+        .collection('exercises')
+        .doc(exercise.id)
+        .delete();
   }
 }
