@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,18 +39,37 @@ class FirestoreDB extends ChangeNotifier {
         .collection('exercises')
         .snapshots()
         .map(
-          (event) => event.docs
-              .map(
-                (e) => Exercise(
-                  name: e['name'],
-                  sets: e['sets'],
-                  reps: e['reps'],
-                  weight: e['weight'],
-                  id: e.id,
-                ),
-              )
-              .toList(),
-        );
+      (event) {
+        for (var doc in event.docs) {
+          print(doc['settings']);
+          print(Map.from(doc['settings']));
+        }
+        return event.docs
+            .map(
+              (e) {
+                print('returning exercise');
+                if(e['settings'] == null || e['settings'] == {}) {
+                  return Exercise(
+                    name: e['name'],
+                    sets: e['sets'],
+                    reps: e['reps'],
+                    weight: e['weight'],
+                    id: e.id,
+                  );
+                }
+                return Exercise(
+                name: e['name'],
+                sets: e['sets'],
+                reps: e['reps'],
+                weight: e['weight'],
+                id: e.id,
+                settings: Map.from(e['settings']),
+              );
+              },
+            )
+            .toList();
+      },
+    );
   }
 
   Future<String> addExercise(
@@ -68,6 +89,7 @@ class FirestoreDB extends ChangeNotifier {
       'sets': sets,
       'reps': reps,
       'weight': weight,
+      'settings': json.encode({}),
     });
     return documentRef.id;
   }
@@ -101,7 +123,7 @@ class FirestoreDB extends ChangeNotifier {
     if (user == null) {
       return;
     }
-    if(await getExercise(exercise.id, cache: true) == exercise) {
+    if (await getExercise(exercise.id, cache: true) == exercise) {
       return;
     }
 

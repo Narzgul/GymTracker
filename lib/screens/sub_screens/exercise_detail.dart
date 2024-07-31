@@ -120,6 +120,24 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
           ),
+
+          // Settings
+          for (String key in newExercise.settings.keys)
+            ListTile(
+              title: Text(key),
+              subtitle: editMode
+                  ? TextField(
+                      controller: TextEditingController(
+                          text: newExercise.settings[key]),
+                      onChanged: (value) {
+                        newExercise.settings[key] = value;
+                      },
+                    )
+                  : Text(
+                      newExercise.settings[key]!,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

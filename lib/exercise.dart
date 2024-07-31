@@ -4,6 +4,7 @@ class Exercise {
   int reps;
   double weight;
   String id;
+  Map<String, String> settings;
 
   Exercise({
     required this.name,
@@ -11,6 +12,7 @@ class Exercise {
     required this.reps,
     required this.weight,
     required this.id,
+    this.settings = const {},
   });
 
   @override
@@ -20,9 +22,10 @@ class Exercise {
         other.name == name &&
         other.sets == sets &&
         other.reps == reps &&
-        other.weight == weight;
+        other.weight == weight &&
+        other.settings == settings;
   }
 
   @override
-  int get hashCode => Object.hashAll([name, sets, reps, weight, id]);
+  int get hashCode => Object.hashAll([name, sets, reps, weight, id, settings]);
 }
