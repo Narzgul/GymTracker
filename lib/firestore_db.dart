@@ -40,34 +40,27 @@ class FirestoreDB extends ChangeNotifier {
         .snapshots()
         .map(
       (event) {
-        for (var doc in event.docs) {
-          print(doc['settings']);
-          print(Map.from(doc['settings']));
-        }
-        return event.docs
-            .map(
-              (e) {
-                print('returning exercise');
-                if(e['settings'] == null || e['settings'] == {}) {
-                  return Exercise(
-                    name: e['name'],
-                    sets: e['sets'],
-                    reps: e['reps'],
-                    weight: e['weight'],
-                    id: e.id,
-                  );
-                }
-                return Exercise(
+        return event.docs.map(
+          (e) {
+            if (e['settings'] == null || e['settings'] == '{}') {
+              return Exercise(
                 name: e['name'],
                 sets: e['sets'],
                 reps: e['reps'],
                 weight: e['weight'],
                 id: e.id,
-                settings: Map.from(e['settings']),
               );
-              },
-            )
-            .toList();
+            }
+            return Exercise(
+              name: e['name'],
+              sets: e['sets'],
+              reps: e['reps'],
+              weight: e['weight'],
+              id: e.id,
+              settings: Map.from(e['settings']),
+            );
+          },
+        ).toList();
       },
     );
   }
@@ -108,12 +101,22 @@ class FirestoreDB extends ChangeNotifier {
         .doc(id)
         .get();
 
+    if (doc['settings'] == null || doc['settings'] == '{}') {
+      return Exercise(
+        name: doc['name'],
+        sets: doc['sets'],
+        reps: doc['reps'],
+        weight: doc['weight'],
+        id: doc.id,
+      );
+    }
     return Exercise(
       name: doc['name'],
       sets: doc['sets'],
       reps: doc['reps'],
       weight: doc['weight'],
       id: doc.id,
+      settings: Map.from(doc['settings']),
     );
   }
 
@@ -137,6 +140,7 @@ class FirestoreDB extends ChangeNotifier {
       'sets': exercise.sets,
       'reps': exercise.reps,
       'weight': exercise.weight,
+      'settings': exercise.settings,
     });
   }
 

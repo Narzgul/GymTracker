@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Exercise {
   String name;
   int sets;
@@ -23,9 +25,14 @@ class Exercise {
         other.sets == sets &&
         other.reps == reps &&
         other.weight == weight &&
-        other.settings == settings;
+        mapEquals(settings, other.settings);
   }
 
   @override
   int get hashCode => Object.hashAll([name, sets, reps, weight, id, settings]);
+
+  @override
+  String toString() {
+    return 'Exercise(name: $name, sets: $sets, reps: $reps, weight: $weight, id: $id, settings: $settings)';
+  }
 }

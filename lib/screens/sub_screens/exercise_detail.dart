@@ -59,7 +59,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           ),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           // Sets
           ListTile(
