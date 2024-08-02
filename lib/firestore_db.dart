@@ -42,7 +42,7 @@ class FirestoreDB extends ChangeNotifier {
       (event) {
         return event.docs.map(
           (e) {
-            if (e['settings'] == null || e['settings'] == '{}') {
+            if (!e.data().containsKey('settings') || e['settings'] == '{}') {
               return Exercise(
                 name: e['name'],
                 sets: e['sets'],
