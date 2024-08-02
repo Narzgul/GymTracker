@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/firestore_db.dart';
-import 'package:gym_tracker/widgets/setting_tile.dart';
+import 'package:gym_tracker/widgets/editable_tile.dart';
 
 import '../../exercise.dart';
+import '../../widgets/settings_tile.dart';
 
 class ExerciseDetail extends StatefulWidget {
   final Exercise exercise;
@@ -65,7 +66,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
       body: ListView(
         children: <Widget>[
           // Sets
-          SettingTile(
+          EditableTile(
             title: 'Sets',
             value: newExercise.sets,
             icon: const Icon(Icons.repeat),
@@ -78,7 +79,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           ),
 
           // Reps
-          SettingTile(
+          EditableTile(
             title: 'Reps',
             value: newExercise.reps,
             icon: const Icon(Icons.autorenew),
@@ -91,7 +92,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           ),
 
           // Weight
-          SettingTile(
+          EditableTile(
             title: 'Weight',
             value: newExercise.weight,
             icon: const Icon(Icons.fitness_center),
@@ -107,22 +108,39 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
 
           // Settings
           for (String key in newExercise.settings.keys)
-            SettingTile(
+            SettingsTile(
               title: key,
               value: newExercise.settings[key],
               editMode: editMode,
-              onChanged: (value) {
+              onChangedValue: (String value) {
                 newExercise.settings[key] = value;
               },
+              onChangedTitle: (String value) {
+                setState(() {
+                  newExercise.addSetting(
+                    key: value,
+                    value: newExercise.settings[key] ?? '',
+                  );
+                  newExercise.settings.remove(key);
+                });
+              },
+              onDelete: () {
+                setState(() {
+                  newExercise.settings.remove(key);
+                });
+              },
             ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                newExercise.addSetting();
-                editMode = true;
-              });
-            },
-            child: const Text('Add setting'),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  newExercise.addSetting();
+                  editMode = true;
+                });
+              },
+              child: const Text('Add setting'),
+            ),
           ),
         ],
       ),

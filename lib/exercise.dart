@@ -17,12 +17,16 @@ class Exercise {
     required this.settings,
   });
 
-  void addSetting() {
-    int i = 1;
-    while (settings.containsKey('Setting ${settings.length + i}')) {
-      i++;
+  void addSetting({String key = '', String value = ''}) {
+    if (key == '') {
+      int i = 1;
+      while (settings.containsKey('Setting ${settings.length + i}')) {
+        i++;
+      }
+      settings['Setting ${settings.length + i}'] = value;
+    } else if (!settings.containsKey(key)) {
+      settings[key] = value;
     }
-    settings['Setting ${settings.length + i}'] = '';
   }
 
   @override

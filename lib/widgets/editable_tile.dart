@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SettingTile extends StatefulWidget {
+class EditableTile extends StatefulWidget {
   final String title;
   final dynamic value;
   final ValueChanged<dynamic> onChanged;
   final bool editMode;
   final Icon? icon;
 
-  const SettingTile({
+  const EditableTile({
     super.key,
     required this.title,
     required this.value,
@@ -17,10 +17,10 @@ class SettingTile extends StatefulWidget {
   });
 
   @override
-  State<SettingTile> createState() => _SettingTileState();
+  State<EditableTile> createState() => _EditableTileState();
 }
 
-class _SettingTileState extends State<SettingTile> {
+class _EditableTileState extends State<EditableTile> {
   late TextEditingController controller;
 
   @override
@@ -51,6 +51,7 @@ class _SettingTileState extends State<SettingTile> {
                     style: Theme.of(context).textTheme.bodyLarge,
                   )
                 : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                         widget.title,
