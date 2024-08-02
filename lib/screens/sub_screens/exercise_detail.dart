@@ -138,6 +138,15 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
             ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                newExercise.addSetting();
+                editMode = true;
+              });
+            },
+            child: const Text('Add setting'),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

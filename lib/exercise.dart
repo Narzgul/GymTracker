@@ -14,8 +14,16 @@ class Exercise {
     required this.reps,
     required this.weight,
     required this.id,
-    this.settings = const {},
+    required this.settings,
   });
+
+  void addSetting() {
+    int i = 1;
+    while (settings.containsKey('Setting ${settings.length + i}')) {
+      i++;
+    }
+    settings['Setting ${settings.length + i}'] = '';
+  }
 
   @override
   bool operator ==(Object other) {

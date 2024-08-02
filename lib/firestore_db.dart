@@ -49,6 +49,7 @@ class FirestoreDB extends ChangeNotifier {
                 reps: e['reps'],
                 weight: e['weight'],
                 id: e.id,
+                settings: {},
               );
             }
             return Exercise(
@@ -91,7 +92,14 @@ class FirestoreDB extends ChangeNotifier {
     FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      return Exercise(name: '', sets: 0, reps: 0, weight: 0, id: '');
+      return Exercise(
+        name: '',
+        sets: 0,
+        reps: 0,
+        weight: 0,
+        id: '',
+        settings: {},
+      );
     }
 
     DocumentSnapshot<Map<String, dynamic>> doc = await db
@@ -101,13 +109,14 @@ class FirestoreDB extends ChangeNotifier {
         .doc(id)
         .get();
 
-    if (doc['settings'] == null || doc['settings'] == '{}') {
+    if (!doc.data()!.containsKey('settings') || doc['settings'] == '{}') {
       return Exercise(
         name: doc['name'],
         sets: doc['sets'],
         reps: doc['reps'],
         weight: doc['weight'],
         id: doc.id,
+        settings: {},
       );
     }
     return Exercise(
