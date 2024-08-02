@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:watch_it/watch_it.dart';
+import 'package:gym_tracker/firestore_db.dart';
 
-import 'exercise_db.dart';
 
 class NewExerciseScreen extends StatefulWidget {
   const NewExerciseScreen({super.key});
@@ -28,7 +27,7 @@ class _NewExerciseScreenState extends State<NewExerciseScreen> {
       if (int.tryParse(input) == null) {
         return 'Must be a whole number';
       }
-    } else if (isNumber){
+    } else if (isNumber) {
       if (double.tryParse(input) == null) {
         return 'Must be a number';
       }
@@ -95,11 +94,12 @@ class _NewExerciseScreenState extends State<NewExerciseScreen> {
                     _weightError != null) {
                   return;
                 }
-                GetIt.I<ExerciseDB>().addExercise(
-                  _nameController.text,
-                  int.parse(_setsController.text),
-                  int.parse(_repsController.text),
-                  double.parse(_weightController.text),
+                FirestoreDB db = FirestoreDB();
+                db.addExercise(
+                  name: _nameController.text,
+                  sets: int.parse(_setsController.text),
+                  reps: int.parse(_repsController.text),
+                  weight: double.parse(_weightController.text),
                 );
                 Navigator.of(context).pop();
               },

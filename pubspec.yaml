@@ -39,6 +39,10 @@ dependencies:
   watch_it: ^1.4.2
   sqflite: ^2.3.3+1
   sqflite_common_ffi: ^2.3.3
+  firebase_core:
+  firebase_auth:
+  google_sign_in:
+  cloud_firestore: ^5.1.0
 
 dev_dependencies:
   flutter_test:
