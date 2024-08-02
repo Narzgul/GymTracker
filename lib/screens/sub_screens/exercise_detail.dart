@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/firestore_db.dart';
+import 'package:gym_tracker/widgets/setting_tile.dart';
 
 import '../../exercise.dart';
 
@@ -59,84 +60,60 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
           ),
         ],
       ),
+
+      // Body
       body: ListView(
         children: <Widget>[
           // Sets
-          ListTile(
-            title: const Text("Sets"),
-            subtitle: editMode
-                ? TextField(
-                    keyboardType: TextInputType.number,
-                    controller: TextEditingController(
-                        text: newExercise.sets.toString()),
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        newExercise.sets = int.parse(value);
-                      }
-                    },
-                  )
-                : Text(
-                    newExercise.sets.toString(),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+          SettingTile(
+            title: 'Sets',
+            value: newExercise.sets,
+            icon: const Icon(Icons.repeat),
+            editMode: editMode,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                newExercise.sets = int.parse(value);
+              }
+            },
           ),
 
           // Reps
-          ListTile(
-            title: const Text("Reps"),
-            subtitle: editMode
-                ? TextField(
-                    keyboardType: TextInputType.number,
-                    controller: TextEditingController(
-                        text: newExercise.reps.toString()),
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        newExercise.reps = int.parse(value);
-                      }
-                    },
-                  )
-                : Text(
-                    newExercise.reps.toString(),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+          SettingTile(
+            title: 'Reps',
+            value: newExercise.reps,
+            icon: const Icon(Icons.autorenew),
+            editMode: editMode,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                newExercise.reps = int.parse(value);
+              }
+            },
           ),
 
           // Weight
-          ListTile(
-            title: const Text("Weight"),
-            subtitle: editMode
-                ? TextField(
-                    keyboardType: TextInputType.number,
-                    controller: TextEditingController(
-                        text: newExercise.weight.toString()),
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        newExercise.weight = double.parse(value);
-                      }
-                    },
-                  )
-                : Text(
-                    newExercise.weight.toString(),
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+          SettingTile(
+            title: 'Weight',
+            value: newExercise.weight,
+            icon: const Icon(Icons.fitness_center),
+            editMode: editMode,
+            onChanged: (value) {
+              if (value.isNotEmpty) {
+                newExercise.weight = double.parse(value);
+              }
+            },
           ),
+
+          const Divider(),
 
           // Settings
           for (String key in newExercise.settings.keys)
-            ListTile(
-              title: Text(key),
-              subtitle: editMode
-                  ? TextField(
-                      controller: TextEditingController(
-                          text: newExercise.settings[key]),
-                      onChanged: (value) {
-                        newExercise.settings[key] = value;
-                      },
-                    )
-                  : Text(
-                      newExercise.settings[key]!,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
+            SettingTile(
+              title: key,
+              value: newExercise.settings[key],
+              editMode: editMode,
+              onChanged: (value) {
+                newExercise.settings[key] = value;
+              },
             ),
           ElevatedButton(
             onPressed: () {
