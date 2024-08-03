@@ -25,6 +25,13 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
   }
 
   @override
+  void dispose() {
+    // Save the changes also when the user uses the back button / gesture
+    super.dispose();
+    saveChanges();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,8 +52,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Save potential changes before popping
-            saveChanges();
+            // Changes are automatically saved when the widget is disposed
             Navigator.of(context).pop();
           },
         ),
