@@ -154,7 +154,6 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
         child: editMode ? const Icon(Icons.save) : const Icon(Icons.edit),
         onPressed: () => setState(() {
           if (editMode) {
-            // Save the changes
             saveChanges();
           }
           editMode = !editMode;

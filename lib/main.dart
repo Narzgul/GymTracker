@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gym_tracker/app_scaffold.dart';
-import 'package:gym_tracker/screens/home_screen.dart';
-import 'package:gym_tracker/screens/login_screen.dart';
 
 import 'firebase_options.dart';
 
@@ -27,7 +25,7 @@ class GymTracker extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue),
       ),
-      home: const AppScaffold(screens: [LoginScreen(), HomeScreen()]),
+      home: const AppScaffold(),
     );
   }
 }

@@ -9,7 +9,7 @@ import 'exercise.dart';
 class FirestoreDB extends ChangeNotifier {
   FirestoreDB();
 
-  Future<void> ensureUser() async {
+  Future<void> ensureUserInDB() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     // get logged in user
     User? user = FirebaseAuth.instance.currentUser;
@@ -24,6 +24,11 @@ class FirestoreDB extends ChangeNotifier {
           .doc(user.uid)
           .set({'name': user.displayName});
     }
+  }
+
+  bool userLoggedIn() {
+    User? user = FirebaseAuth.instance.currentUser;
+    return user != null;
   }
 
   Stream<List<Exercise>> getExerciseStream() {

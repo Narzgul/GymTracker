@@ -8,18 +8,35 @@ import 'navigable_screen.dart';
 class LoginScreen extends StatelessWidget implements NavigableScreen {
   const LoginScreen({super.key});
 
-  bool checkUser() {
+  bool checkUser(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      print("No user logged in");
+      // Open Dialog informing user to login
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            title: Text("Not logged in"),
+            content: Text("Please login to continue!"),
+          );
+        },
+      );
       return false;
     } else {
-      print(user.displayName);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Logged in"),
+            content: Text("You are logged in as ${user.displayName}!"),
+          );
+        },
+      );
       return true;
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -34,18 +51,25 @@ class LoginScreen extends StatelessWidget implements NavigableScreen {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential);
+    var db = FirestoreDB();
+    db.ensureUserInDB();
   }
 
-  signOutGoogle() async {
+  signOutGoogle(BuildContext context) async {
     await GoogleSignIn().signOut();
     await FirebaseAuth.instance.signOut();
-    print("User Signed Out");
-  }
 
-  testFirestore() {
-    var db = FirestoreDB();
-    db.ensureUser().then((value) => print("User ensured"));
+    if(!context.mounted) return;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          title: Text("Logged out"),
+          content: Text("You are no longer logged in with Google!"),
+        );
+      },
+    );
   }
 
   @override
@@ -55,22 +79,18 @@ class LoginScreen extends StatelessWidget implements NavigableScreen {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Login Screen'),
             ElevatedButton(
               onPressed: () => signInWithGoogle(),
               child: const Text('Sign in with Google'),
             ),
+            const Divider(),
             ElevatedButton(
-              onPressed: () => signOutGoogle(),
+              onPressed: () => signOutGoogle(context),
               child: const Text('Sign out'),
             ),
             ElevatedButton(
-              onPressed: () => checkUser(),
+              onPressed: () => checkUser(context),
               child: const Text("Check if User logged in"),
-            ),
-            ElevatedButton(
-              onPressed: () => testFirestore(),
-              child: const Text("Test Firestore"),
             ),
           ],
         ),
