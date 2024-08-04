@@ -14,3 +14,6 @@ The sign-in with Google is handled by Firebase Authentication.
 ![Home Screen](screenshots/home_screen.png)
 ![Exercise Detail Screen](screenshots/Exercise-Detail-v2.0.0.png)
 ![New Exercise Screen](screenshots/new_exercise.png)
+
+## AI Use
+I used heavy inspiration from Bing Image Generator for my Icon, but drew it myself in Inkscape.
