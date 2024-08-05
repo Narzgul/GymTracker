@@ -55,6 +55,9 @@ class FirestoreDB extends ChangeNotifier {
                 weight: e['weight'],
                 id: e.id,
                 settings: {},
+                color: e.data().containsKey('color')
+                    ? Color(e['color'])
+                    : Colors.white,
               );
             }
             return Exercise(
@@ -63,7 +66,11 @@ class FirestoreDB extends ChangeNotifier {
               reps: e['reps'],
               weight: e['weight'],
               id: e.id,
-              settings: Map.from(e['settings']),
+              settings: Map.from(e[
+                  'settings']),
+              color: e.data().containsKey('color')
+                  ? Color(e['color'])
+                  : Colors.white,
             );
           },
         ).toList();
@@ -71,11 +78,12 @@ class FirestoreDB extends ChangeNotifier {
     );
   }
 
-  Future<String> addExercise(
-      {required String name,
-      required int sets,
-      required int reps,
-      required double weight}) async {
+  Future<String> addExercise({
+    required String name,
+    required int sets,
+    required int reps,
+    required double weight,
+  }) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -89,6 +97,7 @@ class FirestoreDB extends ChangeNotifier {
       'reps': reps,
       'weight': weight,
       'settings': json.encode({}),
+      'color': Colors.white.value,
     });
     return documentRef.id;
   }
@@ -122,6 +131,9 @@ class FirestoreDB extends ChangeNotifier {
         weight: doc['weight'],
         id: doc.id,
         settings: {},
+        color: doc.data()!.containsKey('color')
+            ? Color(doc['color'])
+            : Colors.white,
       );
     }
     return Exercise(
@@ -131,10 +143,13 @@ class FirestoreDB extends ChangeNotifier {
       weight: doc['weight'],
       id: doc.id,
       settings: Map.from(doc['settings']),
+      color: doc.data()!.containsKey('color')
+          ? Color(doc['color'])
+          : Colors.white,
     );
   }
 
-  Future<void> editExercise(Exercise exercise) async {
+  Future<void> updateExercise(Exercise exercise) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     User? user = FirebaseAuth.instance.currentUser;
     if (user == null) {
@@ -155,6 +170,7 @@ class FirestoreDB extends ChangeNotifier {
       'reps': exercise.reps,
       'weight': exercise.weight,
       'settings': exercise.settings,
+      'color': exercise.color.value,
     });
   }
 

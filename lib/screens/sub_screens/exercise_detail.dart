@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:gym_tracker/firestore_db.dart';
 import 'package:gym_tracker/widgets/editable_tile.dart';
 
@@ -21,7 +22,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
 
   void saveChanges() {
     FirestoreDB db = FirestoreDB();
-    db.editExercise(newExercise);
+    db.updateExercise(newExercise);
   }
 
   @override
@@ -108,6 +109,38 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
                 newExercise.weight = double.parse(value);
               }
             },
+          ),
+
+          const Divider(),
+
+          // Color
+          ListTile(
+            title: const Text('Color'),
+            trailing: CircleAvatar(
+              backgroundColor: newExercise.color,
+              child: editMode
+                  ? IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Pick a color'),
+                            content: SingleChildScrollView(
+                              child: HueRingPicker(
+                                pickerColor: newExercise.color,
+                                onColorChanged: (color) {
+                                  newExercise.color = color;
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : null,
+            ),
           ),
 
           const Divider(),

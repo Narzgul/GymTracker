@@ -25,6 +25,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
         );
       },
       child: Card(
+        color: widget.exercise.color,
         child: Column(
           children: <Widget>[
             ListTile(

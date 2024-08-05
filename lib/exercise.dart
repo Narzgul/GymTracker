@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 class Exercise {
   String name;
@@ -7,6 +8,7 @@ class Exercise {
   double weight;
   String id;
   Map<String, String> settings;
+  Color color = Colors.white;
 
   Exercise({
     required this.name,
@@ -15,6 +17,7 @@ class Exercise {
     required this.weight,
     required this.id,
     required this.settings,
+    this.color = Colors.white,
   });
 
   void addSetting({String key = '', String value = ''}) {
@@ -37,11 +40,13 @@ class Exercise {
         other.sets == sets &&
         other.reps == reps &&
         other.weight == weight &&
-        mapEquals(settings, other.settings);
+        mapEquals(settings, other.settings) &&
+        other.color == color;
   }
 
   @override
-  int get hashCode => Object.hashAll([name, sets, reps, weight, id, settings]);
+  int get hashCode =>
+      Object.hashAll([name, sets, reps, weight, id, settings, color]);
 
   @override
   String toString() {
