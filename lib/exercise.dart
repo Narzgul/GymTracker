@@ -9,6 +9,7 @@ class Exercise {
   String id;
   Map<String, String> settings;
   Color color = Colors.white;
+  bool finished = false;
 
   Exercise({
     required this.name,
@@ -18,6 +19,7 @@ class Exercise {
     required this.id,
     required this.settings,
     this.color = Colors.white,
+    this.finished = false,
   });
 
   void addSetting({String key = '', String value = ''}) {
@@ -41,12 +43,13 @@ class Exercise {
         other.reps == reps &&
         other.weight == weight &&
         mapEquals(settings, other.settings) &&
-        other.color == color;
+        other.color == color &&
+        other.finished == finished;
   }
 
   @override
   int get hashCode =>
-      Object.hashAll([name, sets, reps, weight, id, settings, color]);
+      Object.hashAll([name, sets, reps, weight, id, settings, color, finished]);
 
   @override
   String toString() {

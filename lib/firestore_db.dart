@@ -58,6 +58,9 @@ class FirestoreDB extends ChangeNotifier {
                 color: e.data().containsKey('color')
                     ? Color(e['color'])
                     : Colors.white,
+                finished: e.data().containsKey('finished')
+                    ? e['color']
+                    : false,
               );
             }
             return Exercise(
@@ -71,6 +74,9 @@ class FirestoreDB extends ChangeNotifier {
               color: e.data().containsKey('color')
                   ? Color(e['color'])
                   : Colors.white,
+              finished: e.data().containsKey('finished')
+                  ? e['finished']
+                  : false,
             );
           },
         ).toList();
@@ -134,6 +140,9 @@ class FirestoreDB extends ChangeNotifier {
         color: doc.data()!.containsKey('color')
             ? Color(doc['color'])
             : Colors.white,
+        finished: doc.data()!.containsKey('finished')
+            ? doc['finished']
+            : false,
       );
     }
     return Exercise(
@@ -146,6 +155,9 @@ class FirestoreDB extends ChangeNotifier {
       color: doc.data()!.containsKey('color')
           ? Color(doc['color'])
           : Colors.white,
+      finished: doc.data()!.containsKey('finished')
+          ? doc['finished']
+          : false,
     );
   }
 
@@ -171,6 +183,7 @@ class FirestoreDB extends ChangeNotifier {
       'weight': exercise.weight,
       'settings': exercise.settings,
       'color': exercise.color.value,
+      'finished': exercise.finished,
     });
   }
 
