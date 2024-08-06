@@ -13,8 +13,19 @@ class ExerciseCard extends StatefulWidget {
 }
 
 class _ExerciseCardState extends State<ExerciseCard> {
+  Color _getBestTextColor(Color backgroundColor) {
+    final double relativeLuminance = backgroundColor.computeLuminance();
+    if (relativeLuminance > 0.5) {
+      return Colors.black;
+    } else {
+      return Colors.white;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Color bestTextColor = _getBestTextColor(widget.exercise.color);
+
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -33,18 +44,23 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 tag: widget.exercise.id,
                 child: Text(
                   widget.exercise.name,
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        color: bestTextColor,
+                      ),
                 ),
               ),
             ),
             ListTile(
               title: Text("Sets: ${widget.exercise.sets}"),
+              textColor: bestTextColor,
             ),
             ListTile(
               title: Text("Reps: ${widget.exercise.reps}"),
+              textColor: bestTextColor,
             ),
             ListTile(
               title: Text("Weight: ${widget.exercise.weight} kg"),
+              textColor: bestTextColor,
             ),
           ],
         ),

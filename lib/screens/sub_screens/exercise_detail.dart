@@ -32,6 +32,15 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
     saveChanges();
   }
 
+  Color _getBestIconColor(Color backgroundColor) {
+    final double relativeLuminance = backgroundColor.computeLuminance();
+    if (relativeLuminance > 0.5) {
+      return Colors.black;
+    } else {
+      return Colors.white;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +130,7 @@ class _ExerciseDetailState extends State<ExerciseDetail> {
               child: editMode
                   ? IconButton(
                       icon: const Icon(Icons.edit),
+                      color: _getBestIconColor(newExercise.color),
                       onPressed: () {
                         showDialog(
                           context: context,
