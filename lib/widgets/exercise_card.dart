@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:gym_tracker/firestore_db.dart';
 
 import '../exercise.dart';
 import '../screens/sub_screens/exercise_detail.dart';
 
 class ExerciseCard extends StatefulWidget {
   final Exercise exercise;
+  final ValueChanged<bool> onExerciseFinished;
 
-  const ExerciseCard({super.key, required this.exercise});
+  const ExerciseCard({
+    super.key,
+    required this.exercise,
+    required this.onExerciseFinished,
+  });
 
   @override
   State<ExerciseCard> createState() => _ExerciseCardState();
@@ -70,6 +74,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 ],
               ),
             ),
+
+            // Checkbox to mark the exercise as finished
             Container(
               padding: const EdgeInsets.all(8.0),
               width: 100,
@@ -80,11 +86,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 value: widget.exercise.finished,
                 onChanged: (bool? value) {
                   if (value == null) return;
-                  setState(() {
-                    widget.exercise.finished = value;
-                    FirestoreDB db = FirestoreDB();
-                    db.updateExercise(widget.exercise);
-                  });
+                  widget.onExerciseFinished(value);
                 },
                 side: BorderSide(
                   color: bestTextColor,

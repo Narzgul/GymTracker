@@ -3,15 +3,20 @@ import 'package:flutter/material.dart';
 import '../exercise.dart';
 import 'exercise_card.dart';
 
-class ExerciseList extends StatelessWidget {
+class ExerciseList extends StatefulWidget {
   final List<Exercise> exercises;
 
   const ExerciseList({super.key, required this.exercises});
 
   @override
+  State<ExerciseList> createState() => _ExerciseListState();
+}
+
+class _ExerciseListState extends State<ExerciseList> {
+  @override
   Widget build(BuildContext context) {
     // If there are no exercises, display a message
-    if (exercises.isEmpty) {
+    if (widget.exercises.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,16 +38,26 @@ class ExerciseList extends StatelessWidget {
       children: [
         SizedBox(
           height: 5,
-          child: LinearProgressIndicator(
-            value: exercises.where((e) => e.finished).length / exercises.length,
-
+          child: TweenAnimationBuilder(
+            duration: const Duration(milliseconds: 250),
+            tween: Tween<double>(
+                begin: 0,
+                end: widget.exercises.where((e) => e.finished).length /
+                    widget.exercises.length),
+            builder: (context, value, _) =>
+                LinearProgressIndicator(value: value),
           ),
         ),
         Flexible(
           child: ListView.builder(
-            itemCount: exercises.length,
-            itemBuilder: (BuildContext context, int index) =>
-                ExerciseCard(exercise: exercises[index]),
+            itemCount: widget.exercises.length,
+            itemBuilder: (BuildContext context, int index) => ExerciseCard(
+                exercise: widget.exercises[index],
+                onExerciseFinished: (bool finished) {
+                  setState(() {
+                    widget.exercises[index].finished = finished;
+                  });
+                }),
           ),
         ),
       ],
