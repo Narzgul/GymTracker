@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_tracker/firestore_db.dart';
 
 import '../exercise.dart';
 import '../screens/sub_screens/exercise_detail.dart';
@@ -87,6 +88,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 onChanged: (bool? value) {
                   if (value == null) return;
                   widget.onExerciseFinished(value);
+                  FirestoreDB db = FirestoreDB();
+                  db.updateExercise(widget.exercise);
                 },
                 side: BorderSide(
                   color: bestTextColor,
